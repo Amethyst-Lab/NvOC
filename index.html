@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NvOC (beta) - Overclock Nvidia GPU on Linux</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #56ab2f, #a8e063);
+            color: #333;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-wrap: wrap;
+        }
+        .container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            text-align: center;
+            width: 80%;
+            max-width: 400px;
+            overflow: hidden;
+            transition: height 0.5s ease;
+        }
+        h1 {
+            font-size: 2.4em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        p {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        .command {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1em;
+            color: #333;
+        }
+        button {
+            background: #56ab2f;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            font-size: 1.1em;
+            padding: 15px 30px;
+            transition: background 0.3s ease;
+        }
+        button:hover {
+            background: #a8e063;
+        }
+        #feedback {
+            color: green;
+            display: none;
+            margin-top: 20px;
+            font-size: 1em;
+        }
+        #footercredit {
+            position: absolute;
+            bottom: 10px;
+        }
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        .tab {
+            cursor: pointer;
+            padding: 10px 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: #f4f4f4;
+            transition: background 0.3s ease;
+        }
+        .tab:hover, .tab.active {
+            background: #a8e063;
+            color: white;
+        }
+        .content {
+            display: none;
+        }
+        .content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div id="container" class="container">
+        <div class="tabs">
+            <div class="tab active" onclick="showContent('installation')">Installation</div>
+            <div class="tab" onclick="showContent('requirements')">Requirements</div>
+            <div class="tab" onclick="showContent('changelogs')">Changelogs</div>
+        </div>
+        <div id="installation" class="content active">
+            <img style="height: 100px;" src="https://amethystlab.org/software/nvoc/NVOClogo.png">
+            <p>NvOC (beta) is a software that allows you to overclock your Nvidia GPU on Linux.</p>
+            <p>Click the button below to copy the installation command.</p>
+            <div id="commandbox" class="command"></div>
+            <button id="copyButton" onclick="copyToClipboard()">Copy Installation Command</button>
+        </div>
+        <div id="requirements" class="content">
+            <h1>Requirements</h1>
+            <p>Currently working only on single GPU systems (one Nvidia GPU).</p>
+            <p>Optimus systems work fine.</p>
+            <p>NvOC overclock is persistent even after a reboot.</p>
+            <p>"systemd, python3, pip, echo and tee" should be installed</p>
+        </div>
+        <div id="changelogs" class="content">
+            <h1>Changelogs</h1>
+            <div class="command">1.0.2 : Adding units and fix display issue</div>
+            <div class="command">1.0.1 : Adding uninstaller in /opt/NvOC/uninstaller.sh</div>
+            <div class="command">1.0.0 : Initial release</div>
+        </div>
+    </div>
+    <br>
+    <center>
+        <img style="height: 50px;" src="https://amethystlab.org/ALlogo.png">
+    </center>
+    <h3 style="width: 100%; text-align: center; margin-top: 0px;">An Amethystlab project</h3>
+</div>
+<center id="footercredit">
+    <p>Made with 💜 by MiMillie</p>
+</center>
+
+<script>
+    const command = 'curl -sL https://amethystlab.org/software/nvoc/install.sh | bash';
+    document.getElementById('commandbox').textContent = command;
+
+    function copyToClipboard() {
+        navigator.clipboard.writeText(command).then(() => {
+            const button = document.getElementById('copyButton');
+            button.textContent = 'Copied!';
+            setTimeout(() => {
+                button.textContent = 'Copy Installation Command';
+            }, 3000);
+        }).catch(err => {
+            console.error('Copy failed', err);
+        });
+    }
+
+    function showContent(tab) {
+        const contents = document.querySelectorAll('.content');
+        const tabs = document.querySelectorAll('.tab');
+
+        contents.forEach(content => {
+            content.classList.remove('active');
+        });
+
+        tabs.forEach(tabElement => {
+            tabElement.classList.remove('active');
+        });
+
+        const activeContent = document.getElementById(tab);
+        activeContent.classList.add('active');
+        event.currentTarget.classList.add('active');
+
+        // Calculate the new height of the container
+        const container = document.getElementById('container');
+        const newHeight = activeContent.offsetHeight + 60; // 60 is the padding of the container
+        container.style.height = newHeight + 'px';
+    }
+
+    // Set initial height of the container
+    window.onload = () => {
+        const activeContent = document.querySelector('.content.active');
+        const container = document.getElementById('container');
+        const initialHeight = activeContent.offsetHeight + 60; // 60 is the padding of the container
+        container.style.height = initialHeight + 'px';
+    };
+</script>
+</body>
+</html>
+

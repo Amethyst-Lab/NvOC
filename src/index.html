@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NvOC (beta)</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body onload="sendReady()">
+    <div class="container">
+        <div class="slider-container">
+            <label for="slider1">Core clock offset (MHz) :</label>
+            <input type="range" id="slider1" min="-100" max="2000" value="0" oninput="updateValue(1)">
+            <input type="number" id="value1" value="0" oninput="updateSlider(1)">
+        </div>
+        <div class="slider-container">
+            <label for="slider2">Memory clock offset (MHz) :</label>
+            <input type="range" id="slider2" min="-100" max="5000" value="0" oninput="updateValue(2)">
+            <input type="number" id="value2" value="0" oninput="updateSlider(2)">
+        </div>
+        <div class="slider-container">
+            <label for="slider3">GPU Power (in Watts):</label>
+            <input type="range" id="slider3" min="0" max="800" value="0" oninput="updateValue(3)" disabled>
+            <input type="number" id="value3" value="0" oninput="updateSlider(3)" disabled>
+        </div>
+        <div class="checkbox-container">
+          <label for="enablepowermanagement">Enable power management :</label>
+          <input type="checkbox" id="enablepowermanagement" min="0" max="800" value="0">
+      </div>
+      <div class="button-container">
+        <button id="redbtn" onclick="ResetValues()">Reset OC</button>
+        <button onclick="getSliderValues()">Apply OC</button>
+      </div>
+    </div>
+    <script src="renderer.js"></script>
+</body>
+</html>
