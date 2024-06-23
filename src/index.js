@@ -33,7 +33,7 @@ const createWindow = () => {
   console.log("Amethyst Lab")
   console.log("NvOC By MiMillie")
 
-
+// Should be used for later functions
   function executeCommand(command, callback) {
     exec(command, (error, stdout, stderr) => {
         if (error) {
@@ -70,12 +70,9 @@ function readNvocConfigFile(callback) {
                   'No'
               ]
           })
-              // Dialog returns a promise so let's handle it correctly
               .then((result) => {
-                  // Bail if the user pressed "No" or escaped (ESC) from the dialog box
                   if (result.response !== 0) { app.quit() }
       
-                  // Testing.
                   if (result.response === 0) {
                       console.log('The "Yes" button was pressed (main process)');
 let serviceFile = `
@@ -104,24 +101,20 @@ nvmlDeviceSetMemClkVfOffset(myGPU, 0)
 let scriptContent = `
 #!/usr/bin/env bash
 
-# Créer le fichier de service
 cat <<EOF1 > /etc/systemd/system/nvoc.service
 ${serviceFile}
 EOF1
 
-# Créer le répertoire et configurer l'environnement virtuel
 mkdir -p /opt/NvOC/nvocenv/
 cd /opt/NvOC/nvocenv/
 python3 -m venv ./
 source ./bin/activate
 pip install nvidia-ml-py pynvml
 
-# Créer le fichier de configuration
 cat <<EOF2 > /opt/NvOC/nvocenv/nvoc_config.py
 ${fileContent}
 EOF2
 
-# Activer et démarrer le service
 systemctl enable --now nvoc.service
 `;
                       
@@ -147,7 +140,6 @@ systemctl enable --now nvoc.service
       return;
     }
 
-    // Use regular expression to find all numbers in the file
     const regex = /\b\d+\b/g;
     const numbers = data.match(regex);
 
@@ -254,12 +246,12 @@ fi
 
 
   //Revieve IPC exemple
-  ipcMain.on("toMain", (event, args) => {
+  //ipcMain.on("toMain", (event, args) => {
     //console.log(args)
-  })
+  //})
 
 // IPC send exemple
-  mainWindow.webContents.send("fromMain", "UwU");
+  //mainWindow.webContents.send("fromMain", "UwU");
 
 };
 
