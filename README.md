@@ -1,6 +1,21 @@
 # NvOC
 Overclock your Nvidia GPU on Linux.
 
-to create package, drop uninstall and logo in the output dir and compress it to tar.xz
+## Requirements : 
 
-install.sh is meant to be on the website to allow the installation.
+- systemd
+- python3
+- python3-venv
+- python3-pip
+- nvidia-cuda-toolkit
+- policykit-1
+- echo
+- tee
+
+  ## Installing :
+
+Run this command to install the software : `curl -sL https://amethystlab.org/software/nvoc/install.sh | bash`
+
+## Uninstalling :
+
+run with root permission : `/opt/NvOC/uninstall.sh`
