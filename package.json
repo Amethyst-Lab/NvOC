@@ -1,7 +1,7 @@
 {
   "name": "nvoc",
   "productName": "nvoc",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "An OC tool for Nvidia GPUs on Linux",
   "main": "src/index.js",
   "scripts": {
